@@ -1,0 +1,1190 @@
+/* ===== ОСНОВНЫЕ СТИЛИ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ===== АНИМИРОВАННЫЙ ФОН ===== */
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.sky-gradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #87CEEB 0%, #B0E2FF 50%, #E0F6FF 100%);
+    animation: skyPulse 10s infinite alternate;
+}
+
+@keyframes skyPulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.1); }
+    100% { filter: brightness(1); }
+}
+
+/* ===== ОБЛАКА ===== */
+.floating-clouds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.cloud {
+    position: absolute;
+    font-size: 4rem;
+    opacity: 0.7;
+    animation: floatCloud linear infinite;
+    filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.1));
+    white-space: nowrap;
+}
+
+@keyframes floatCloud {
+    from { transform: translateX(-100px); }
+    to { transform: translateX(calc(100vw + 100px)); }
+}
+
+/* ===== ЛЕТАЮЩИЕ ПТИЦЫ ===== */
+.flying-birds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.bird {
+    position: absolute;
+    font-size: 2rem;
+    animation: flyBird 8s linear infinite;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+}
+
+@keyframes flyBird {
+    0% {
+        transform: translateX(-50px) translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(25vw) translateY(-30px) rotate(5deg);
+    }
+    50% {
+        transform: translateX(50vw) translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateX(75vw) translateY(-20px) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(calc(100vw + 50px)) translateY(0) rotate(0deg);
+    }
+}
+
+/* ===== СОЛНЦЕ С ЛУЧАМИ ===== */
+.sun-with-rays {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    width: 100px;
+    height: 100px;
+}
+
+.sun {
+    position: absolute;
+    font-size: 5rem;
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ray {
+    position: absolute;
+    width: 4px;
+    height: 30px;
+    background: #FFD700;
+    top: 40px;
+    left: 45px;
+    transform-origin: bottom;
+    animation: rayPulse 2s infinite alternate;
+}
+
+.ray:nth-child(2) { transform: rotate(45deg); animation-delay: 0.2s; }
+.ray:nth-child(3) { transform: rotate(90deg); animation-delay: 0.4s; }
+.ray:nth-child(4) { transform: rotate(135deg); animation-delay: 0.6s; }
+.ray:nth-child(5) { transform: rotate(180deg); animation-delay: 0.8s; }
+.ray:nth-child(6) { transform: rotate(225deg); animation-delay: 1s; }
+.ray:nth-child(7) { transform: rotate(270deg); animation-delay: 1.2s; }
+.ray:nth-child(8) { transform: rotate(315deg); animation-delay: 1.4s; }
+.ray:nth-child(9) { transform: rotate(360deg); animation-delay: 1.6s; }
+
+@keyframes rayPulse {
+    0% { opacity: 0.3; height: 20px; }
+    100% { opacity: 1; height: 40px; }
+}
+
+/* ===== ГЛАВНЫЙ КОНТЕЙНЕР ===== */
+.park-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+}
+
+/* ===== ВХОД В ЗООПАРК ===== */
+.entrance-gate {
+    background: rgba(255, 215, 0, 0.9);
+    border-radius: 60px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 8px solid white;
+    box-shadow: 0 10px 0 #B8860B, 0 20px 30px rgba(0,0,0,0.2);
+    transform-origin: center;
+    animation: gateAppear 1s ease-out;
+}
+
+@keyframes gateAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.park-title {
+    font-size: 3rem;
+    text-align: center;
+    color: #4A2E1E;
+    text-shadow: 3px 3px 0 white, 5px 5px 0 rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.title-animal {
+    display: inline-block;
+    font-size: 4rem;
+    margin: 0 20px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* ===== СМОТРИТЕЛЬ ЗООПАРКА ===== */
+.zookeeper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: 4px solid #FF6B4A;
+    animation: wave 2s infinite;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.keeper-emoji {
+    font-size: 3rem;
+    animation: blink 3s infinite;
+}
+
+@keyframes blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.2); }
+}
+
+.keeper-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4A2E1E;
+}
+
+/* ===== КАРТА ЗООПАРКА ===== */
+.park-map {
+    position: relative;
+    background: #90EE90;
+    border-radius: 70px;
+    padding: 60px 40px;
+    min-height: 600px;
+    border: 10px solid #8B4513;
+    box-shadow: 0 20px 0 #654321, inset 0 0 50px rgba(255,255,255,0.5);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+/* Анимированные дорожки */
+.animated-path {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+}
+
+.path1 {
+    top: 20%;
+    left: 0;
+    transform: skewY(-3deg);
+}
+
+.path2 {
+    top: 50%;
+    left: 0;
+    transform: skewY(2deg);
+}
+
+.path3 {
+    top: 70%;
+    left: 0;
+    transform: skewY(-1deg);
+}
+
+.footprints {
+    position: absolute;
+    font-size: 2rem;
+    white-space: nowrap;
+    animation: walkFootprints 15s linear infinite;
+    color: #8B4513;
+    opacity: 0.5;
+}
+
+@keyframes walkFootprints {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* ===== ВОЛЬЕРЫ ===== */
+.enclosure {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: white;
+    border-radius: 40px;
+    text-decoration: none;
+    color: #333;
+    border: 5px solid white;
+    box-shadow: 0 15px 0 rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.enclosure:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 25px 0 rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.enclosure:hover .enclosure-hover {
+    bottom: 0;
+}
+
+.enclosure-roof {
+    position: absolute;
+    top: -20px;
+    left: 10%;
+    width: 80%;
+    height: 30px;
+    background: #FF6B4A;
+    border-radius: 20px 20px 0 0;
+    border: 3px solid white;
+}
+
+.water-effect {
+    background: #00BFFF;
+    animation: waterWave 2s infinite;
+}
+
+@keyframes waterWave {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.enclosure-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+}
+
+.enclosure-emoji {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    animation: wiggle 3s infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+}
+
+.enclosure-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #4A2E1E;
+}
+
+.animal-previews {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+}
+
+.animal-previews span {
+    animation: peek 2s infinite;
+}
+
+@keyframes peek {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Расположение вольеров */
+.birds-house {
+    top: 10%;
+    left: 10%;
+    background: #FFB6C1;
+}
+
+.mammals-house {
+    top: 15%;
+    right: 15%;
+    background: #B0E0E6;
+}
+
+.aquarium-house {
+    bottom: 20%;
+    left: 15%;
+    background: #90EE90;
+}
+
+.safari-house {
+    bottom: 25%;
+    right: 10%;
+    background: #FFD700;
+}
+
+.game-house {
+    top: 45%;
+    left: 40%;
+    background: #FFA07A;
+}
+
+/* Ховер эффект */
+.enclosure-hover {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.hover-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.hover-arrow {
+    font-size: 1.5rem;
+    animation: arrowMove 1s infinite;
+}
+
+@keyframes arrowMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+/* Летающие вокруг */
+.flying-around {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.flyer {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: flyAround 5s infinite;
+}
+
+.flyer:nth-child(1) {
+    top: -20px;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.flyer:nth-child(2) {
+    bottom: -20px;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+@keyframes flyAround {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(20px, -20px) rotate(10deg); }
+    50% { transform: translate(-20px, 20px) rotate(-10deg); }
+    75% { transform: translate(20px, 20px) rotate(5deg); }
+}
+
+/* Пузырьки для аквариума */
+.bubbles-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    animation: bubble 3s infinite;
+}
+
+.bubble:nth-child(1) {
+    left: 20%;
+    bottom: -10px;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+    left: 50%;
+    bottom: -10px;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(3) {
+    left: 80%;
+    bottom: -10px;
+    animation-delay: 2s;
+}
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-150px) scale(2);
+        opacity: 0;
+    }
+}
+
+/* ===== ДЕРЕВЬЯ ===== */
+.park-tree {
+    position: absolute;
+    font-size: 5rem;
+    filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.2));
+    animation: sway 5s infinite alternate;
+}
+
+@keyframes sway {
+    from { transform: rotate(-5deg); }
+    to { transform: rotate(5deg); }
+}
+
+.tree1 { top: 5%; left: 5%; }
+.tree2 { top: 3%; right: 5%; }
+.tree3 { bottom: 5%; left: 8%; }
+.tree4 { bottom: 5%; right: 8%; }
+
+/* ===== СКАМЕЙКИ ===== */
+.park-bench {
+    position: absolute;
+    font-size: 2.5rem;
+    background: #8B4513;
+    padding: 15px;
+    border-radius: 30px;
+    color: white;
+}
+
+.bench1 { bottom: 15%; left: 25%; }
+.bench2 { bottom: 15%; right: 25%; }
+
+/* ===== ФОНТАН ===== */
+.water-fountain {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    display: flex;
+    gap: 5px;
+}
+
+.fountain-water {
+    animation: waterDrop 1s infinite;
+}
+
+.fountain-water:nth-child(1) { animation-delay: 0s; }
+.fountain-water:nth-child(2) { animation-delay: 0.3s; }
+.fountain-water:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes waterDrop {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(-20px); opacity: 0.5; }
+}
+
+/* ===== ИНФОРМАЦИОННАЯ ТАБЛИЧКА ===== */
+.information-board {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    background: #8B4513;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 3px solid #FFD700;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.info-icon {
+    font-size: 2rem;
+}
+
+.info-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* ===== СТАТИСТИКА ПУТЕШЕСТВЕННИКА ===== */
+.traveler-stats {
+    margin: 30px 0;
+}
+
+.stats-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 50px;
+    padding: 25px;
+    border: 5px solid #FFD700;
+    box-shadow: 0 10px 0 #B8860B;
+    backdrop-filter: blur(5px);
+}
+
+.stats-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #4A2E1E;
+}
+
+.stats-emoji {
+    font-size: 3rem;
+    animation: bounce 2s infinite;
+}
+
+.stats-title {
+    font-weight: 700;
+}
+
+.stats-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-item {
+    background: #F0E68C;
+    padding: 15px 25px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 3px solid white;
+    box-shadow: 0 5px 0 #B8860B;
+    transition: 0.2s;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 0 #B8860B;
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4A2E1E;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #FF6B4A;
+}
+
+.stat-total {
+    font-size: 1.2rem;
+    color: #888;
+}
+
+/* ===== БЕГУЩАЯ СТРОКА ===== */
+.animals-ticker {
+    background: rgba(0,0,0,0.7);
+    border-radius: 50px;
+    padding: 15px;
+    margin-top: 30px;
+    overflow: hidden;
+    border: 3px solid #FFD700;
+}
+
+.ticker-content {
+    display: flex;
+    gap: 50px;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+}
+
+.ticker-content span {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0 10px;
+}
+
+@keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* ===== СТИЛИ ДЛЯ ВОЛЬЕРОВ ===== */
+.enclosure-page {
+    min-height: 100vh;
+    position: relative;
+}
+
+.enclosure-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.9);
+    padding: 20px 30px;
+    border-radius: 50px;
+    margin: 20px;
+    border: 5px solid white;
+    box-shadow: 0 10px 0 #654321;
+    backdrop-filter: blur(5px);
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.map-return {
+    background: #FF6B4A;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 40px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border: 3px solid white;
+    box-shadow: 0 5px 0 #C94A4A;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-return:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 0 #C94A4A;
+}
+
+.map-return:active {
+    transform: translateY(5px);
+    box-shadow: 0 0px 0 #C94A4A;
+}
+
+.return-icon {
+    font-size: 1.8rem;
+}
+
+/* ===== СЕТКИ ЖИВОТНЫХ ===== */
+.birds-grid, .mammals-grid, .fish-grid, .safari-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.bird-card, .mammal-card, .fish-card, .safari-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 50px;
+    padding: 30px;
+    text-align: center;
+    border: 5px solid white;
+    box-shadow: 0 15px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+.bird-card:hover, .mammal-card:hover, .fish-card:hover, .safari-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 0 rgba(0,0,0,0.2);
+}
+
+.bird-card::before, .mammal-card::before, .fish-card::before, .safari-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    20%, 100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.bird-card.learned, .mammal-card.learned, .fish-card.learned, .safari-card.learned {
+    background: #90EE90;
+    border-color: #32CD32;
+}
+
+/* Эмодзи животных */
+.bird-emoji, .mammal-emoji, .fish-emoji, .safari-emoji {
+    font-size: 5rem;
+    margin-bottom: 15px;
+    animation: float 3s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.bird-name, .mammal-name, .fish-name, .safari-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4A2E1E;
+    margin-bottom: 10px;
+}
+
+.bird-english, .mammal-english, .fish-english, .safari-english {
+    font-size: 1.8rem;
+    color: #FF6B4A;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.bird-sound, .mammal-food, .fish-color, .safari-sound {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 20px;
+    background: #F0E68C;
+    padding: 8px;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+/* Кнопка изучения */
+.learn-btn {
+    background: #FFD700;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 40px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 5px 0 #B8860B;
+    transition: 0.1s;
+    width: 100%;
+}
+
+.learn-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 #B8860B;
+}
+
+.learn-btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 2px 0 #B8860B;
+}
+
+/* ===== СПЕЦИАЛЬНЫЕ ЭФФЕКТЫ ДЛЯ ВОЛЬЕРОВ ===== */
+
+/* Птицы */
+.birds-page {
+    background: linear-gradient(135deg, #87CEEB, #B0E2FF);
+    position: relative;
+}
+
+.birds-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 40px);
+    pointer-events: none;
+}
+
+/* Млекопитающие */
+.mammals-page {
+    background: linear-gradient(135deg, #90EE90, #32CD32);
+    position: relative;
+}
+
+.mammals-page::after {
+    content: '🌿🌿🌿';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.2);
+    white-space: nowrap;
+    animation: sway 10s infinite;
+}
+
+/* Аквариум */
+.aquarium-page {
+    background: linear-gradient(135deg, #00BFFF, #1E90FF);
+    position: relative;
+}
+
+.aquarium-page .bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.aquarium-page .bubble {
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: bubbleUp 4s infinite;
+}
+
+@keyframes bubbleUp {
+    0% {
+        width: 0;
+        height: 0;
+        bottom: -10px;
+        opacity: 0.5;
+    }
+    100% {
+        width: 50px;
+        height: 50px;
+        bottom: 100%;
+        opacity: 0;
+    }
+}
+
+/* Сафари */
+.safari-page {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    position: relative;
+}
+
+.safari-page .grass {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, #228B22, #32CD32);
+    clip-path: polygon(0% 100%, 2% 80%, 4% 100%, 6% 70%, 8% 100%, 10% 75%, 12% 100%, 14% 65%, 16% 100%, 18% 70%, 20% 100%);
+    animation: grassWave 3s infinite alternate;
+}
+
+@keyframes grassWave {
+    from { clip-path: polygon(0% 100%, 2% 80%, 4% 100%, 6% 70%, 8% 100%, 10% 75%, 12% 100%, 14% 65%, 16% 100%, 18% 70%, 20% 100%); }
+    to { clip-path: polygon(0% 100%, 2% 85%, 4% 100%, 6% 75%, 8% 100%, 10% 80%, 12% 100%, 14% 70%, 16% 100%, 18% 75%, 20% 100%); }
+}
+
+/* Игровая страница */
+.game-page {
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+}
+
+/* ===== ИГРОВАЯ ЗОНА ===== */
+.game-zone {
+    background: rgba(255,255,255,0.9);
+    border-radius: 60px;
+    padding: 50px;
+    margin: 40px;
+    border: 5px solid white;
+    box-shadow: 0 20px 0 #FF1493, inset 0 0 30px rgba(255,255,255,0.8);
+    backdrop-filter: blur(5px);
+}
+
+.food-items {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 40px 0;
+    padding: 30px;
+    background: #F0E68C;
+    border-radius: 50px;
+    border: 4px dashed #FF6B4A;
+}
+
+.food-item {
+    font-size: 4rem;
+    cursor: grab;
+    transition: all 0.2s;
+    filter: drop-shadow(5px 5px 0 rgba(0,0,0,0.2));
+    animation: foodFloat 2s infinite;
+}
+
+@keyframes foodFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.food-item:hover {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.food-item:active {
+    cursor: grabbing;
+    transform: scale(0.9);
+}
+
+.hungry-animals {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 40px 0;
+    min-height: 200px;
+}
+
+.animal-slot {
+    text-align: center;
+    padding: 25px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 40px;
+    font-size: 5rem;
+    position: relative;
+    border: 4px solid white;
+    box-shadow: 0 8px 0 #C94A4A;
+    transition: 0.2s;
+    min-width: 150px;
+}
+
+.animal-slot:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 0 #C94A4A;
+}
+
+.animal-slot.fed {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+    position: relative;
+}
+
+.animal-slot.fed::after {
+    content: '✅';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 2rem;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    animation: pop 0.3s;
+}
+
+@keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.animal-slot::before {
+    content: attr(data-hungry);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 30px;
+    white-space: nowrap;
+    border: 2px solid #FF6B4A;
+    box-shadow: 0 3px 0 #C94A4A;
+}
+
+.game-message {
+    font-size: 2.2rem;
+    margin: 40px;
+    padding: 25px;
+    background: #F0E68C;
+    border-radius: 50px;
+    border: 4px dashed #FF6B4A;
+    text-align: center;
+    font-weight: 700;
+    animation: messagePulse 2s infinite;
+}
+
+@keyframes messagePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .park-title {
+        font-size: 2rem;
+    }
+    
+    .enclosure {
+        position: relative;
+        margin: 20px auto;
+    }
+    
+    .park-map {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: auto;
+    }
+    
+    .animated-path {
+        display: none;
+    }
+    
+    .enclosure-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .game-zone {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .food-items {
+        gap: 15px;
+    }
+    
+    .food-item {
+        font-size: 2.5rem;
+    }
+    
+    .animal-slot {
+        font-size: 3rem;
+        min-width: 100px;
+    }
+    
+    .stats-content {
+        flex-direction: column;
+    }
+    
+    .stat-item {
+        width: 100%;
+    }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ АНИМАЦИИ ===== */
+@keyframes glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Стили для фотоаппарата */
+.camera-icon {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.2s;
+    animation: cameraFlash 3s infinite;
+}
+
+@keyframes cameraFlash {
+    0%, 90%, 100% { transform: scale(1); }
+    95% { transform: scale(1.2); filter: brightness(1.5); }
+}
+
+/* Конец стилей */

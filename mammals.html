@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐻 Лесные жители · Зоопарк</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="enclosure-page mammals-page">
+    <!-- Лесной фон -->
+    <div class="animated-bg">
+        <div class="sky-gradient"></div>
+        <div class="forest-bg">
+            <div class="tree-line"></div>
+            <div class="falling-leaves">
+                <span class="leaf">🍂</span>
+                <span class="leaf">🍃</span>
+                <span class="leaf">🍁</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Шапка вольера -->
+    <div class="enclosure-header">
+        <a href="index.html" class="map-return">
+            <span class="return-icon">🗺️</span>
+            В лес
+        </a>
+        <h1 class="enclosure-title">
+            <span class="title-deco">🐻</span>
+            Лесные жители
+            <span class="title-deco">🦊</span>
+        </h1>
+        <div class="weather-badge">
+            <span class="weather-icon">🌳</span>
+            Лесная поляна
+        </div>
+    </div>
+
+    <!-- Лесной вольер -->
+    <div class="forest-enclosure">
+        <!-- Деревья -->
+        <div class="forest-trees">
+            <span class="forest-tree">🌲</span>
+            <span class="forest-tree">🌳</span>
+            <span class="forest-tree">🌲</span>
+            <span class="forest-tree">🌳</span>
+        </div>
+
+        <!-- Пеньки для сидения -->
+        <div class="stumps">
+            <div class="stump">🪵</div>
+            <div class="stump">🪵</div>
+        </div>
+
+        <!-- Сетка с животными -->
+        <div class="mammals-grid" id="mammalsGrid"></div>
+
+        <!-- Берлога -->
+        <div class="den">
+            <div class="den-entrance">🕳️</div>
+            <div class="den-text">Чья-то норка</div>
+        </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="enclosure-stats">
+        <div class="stat-badge">
+            <span class="stat-emoji">🐾</span>
+            <span class="stat-label">Поглажено зверей:</span>
+            <span class="stat-value" id="mammalsCount">0</span>
+            <span class="stat-total">/6</span>
+        </div>
+    </div>
+
+    <script>
+        // База данных лесных животных
+        const mammals = [
+            { 
+                emoji: '🐻', 
+                english: 'bear', 
+                russian: 'медведь', 
+                sound: '🔊 Ррр!',
+                food: '🍯 Мёд',
+                home: '🕳️ Берлога',
+                trait: 'Сладкоежка'
+            },
+            { 
+                emoji: '🦊', 
+                english: 'fox', 
+                russian: 'лиса', 
+                sound: '🔊 Тяф-тяф!',
+                food: '🐔 Курочка',
+                home: '🕳️ Нора',
+                trait: 'Хитрая'
+            },
+            { 
+                emoji: '🐰', 
+                english: 'rabbit', 
+                russian: 'зайчик', 
+                sound: '🔊 ...',
+                food: '🥕 Морковка',
+                home: '🌿 Кустик',
+                trait: 'Быстро прыгает'
+            },
+            { 
+                emoji: '🦌', 
+                english: 'deer', 
+                russian: 'олень', 
+                sound: '🔊 Ау!',
+                food: '🌿 Травка',
+                home: '🌲 Лес',
+                trait: 'Красивые рога'
+            },
+            { 
+                emoji: '🐺', 
+                english: 'wolf', 
+                russian: 'волк', 
+                sound: '🔊 У-у-у!',
+                food: '🥩 Мясо',
+                home: '🕳️ Логово',
+                trait: 'Воет на луну'
+            },
+            { 
+                emoji: '🦔', 
+                english: 'hedgehog', 
+                russian: 'ёжик', 
+                sound: '🔊 Пых-пых',
+                food: '🍎 Яблоко',
+                home: '🍂 Под листьями',
+                trait: 'Колючий клубок'
+            }
+        ];
+
+        let studiedMammals = JSON.parse(localStorage.getItem('studiedMammals')) || [];
+
+        function renderMammals() {
+            const grid = document.getElementById('mammalsGrid');
+            grid.innerHTML = '';
+            
+            mammals.forEach((mammal, index) => {
+                const isLearned = studiedMammals.includes(mammal.english);
+                const card = document.createElement('div');
+                card.className = `mammal-card ${isLearned ? 'learned' : ''}`;
+                card.setAttribute('data-mammal', mammal.english);
+                
+                card.innerHTML = `
+                    <div class="mammal-emoji">${mammal.emoji}</div>
+                    <div class="mammal-name">${mammal.russian}</div>
+                    <div class="mammal-english">${mammal.english}</div>
+                    <div class="mammal-details">
+                        <div class="mammal-sound">🔊 ${mammal.sound}</div>
+                        <div class="mammal-food">🍽️ ${mammal.food}</div>
+                        <div class="mammal-home">🏠 ${mammal.home}</div>
+                        <div class="mammal-trait">✨ ${mammal.trait}</div>
+                    </div>
+                    <button class="learn-btn" onclick="learnMammal('${mammal.english}')">
+                        ${isLearned ? '✅ Поглажен' : '🐾 Погладить'}
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            updateMammalsCount();
+        }
+
+        window.learnMammal = function(mammalName) {
+            if (!studiedMammals.includes(mammalName)) {
+                studiedMammals.push(mammalName);
+                localStorage.setItem('studiedMammals', JSON.stringify(studiedMammals));
+                
+                let photos = JSON.parse(localStorage.getItem('photos')) || [];
+                photos.push(`mammal_${mammalName}_${Date.now()}`);
+                localStorage.setItem('photos', JSON.stringify(photos));
+                
+                let stars = parseInt(localStorage.getItem('stars')) || 0;
+                stars += 1;
+                localStorage.setItem('stars', stars);
+                
+                renderMammals();
+            }
+        };
+
+        function updateMammalsCount() {
+            document.getElementById('mammalsCount').textContent = studiedMammals.length;
+        }
+
+        renderMammals();
+    </script>
+</body>
+</html>

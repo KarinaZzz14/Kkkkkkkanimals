@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦜 Птичий двор · Зоопарк</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="enclosure-page birds-page">
+    <!-- Фон с облаками и летающими птицами -->
+    <div class="animated-bg">
+        <div class="sky-gradient"></div>
+        <div class="floating-clouds">
+            <div class="cloud" style="top: 10%; left: -10%;">☁️</div>
+            <div class="cloud" style="top: 30%; right: -5%;">☁️☁️</div>
+            <div class="cloud" style="bottom: 20%; left: 20%;">☁️☁️☁️</div>
+        </div>
+        <div class="flying-birds">
+            <div class="bird" style="top: 15%;">🕊️</div>
+            <div class="bird" style="top: 35%; animation-delay: 2s;">🕊️</div>
+            <div class="bird" style="top: 55%; animation-delay: 4s;">🕊️</div>
+        </div>
+    </div>
+
+    <!-- Шапка вольера -->
+    <div class="enclosure-header">
+        <a href="index.html" class="map-return">
+            <span class="return-icon">🗺️</span>
+            Вернуться на карту
+        </a>
+        <h1 class="enclosure-title">
+            <span class="title-deco">🦜</span>
+            Птичий двор
+            <span class="title-deco">🦚</span>
+        </h1>
+        <div class="weather-badge">
+            <span class="weather-icon">☀️</span>
+            +24°C · Лёгкий ветерок
+        </div>
+    </div>
+
+    <!-- Птичий вольер -->
+    <div class="aviary">
+        <!-- Ветки для птиц -->
+        <div class="branches">
+            <div class="branch branch1"></div>
+            <div class="branch branch2"></div>
+            <div class="branch branch3"></div>
+        </div>
+
+        <!-- Кормушка -->
+        <div class="bird-feeder">
+            <div class="feeder">🥜🐛🌽</div>
+            <div class="feeder-text">Столовая для птиц</div>
+        </div>
+
+        <!-- Сетка с птицами -->
+        <div class="birds-grid" id="birdsGrid">
+            <!-- Карточки добавляются через JS -->
+        </div>
+
+        <!-- Поилка -->
+        <div class="water-bath">
+            <div class="bath-water">💧💧💧</div>
+            <div class="bath-text">Купальня</div>
+        </div>
+    </div>
+
+    <!-- Счётчик изученных птиц -->
+    <div class="enclosure-stats">
+        <div class="stat-badge">
+            <span class="stat-emoji">📸</span>
+            <span class="stat-label">Сфотографировано птиц:</span>
+            <span class="stat-value" id="birdsCount">0</span>
+            <span class="stat-total">/6</span>
+        </div>
+    </div>
+
+    <script>
+        // База данных птиц
+        const birds = [
+            { 
+                emoji: '🦜', 
+                english: 'parrot', 
+                russian: 'попугай', 
+                sound: '🎵 Привет!',
+                color: '🌈 Разноцветный',
+                food: '🥜 Орешки',
+                fact: 'Умеет повторять слова'
+            },
+            { 
+                emoji: '🦉', 
+                english: 'owl', 
+                russian: 'сова', 
+                sound: '🔊 Ух-ух!',
+                color: '🟤 Коричневая',
+                food: '🐭 Мышки',
+                fact: 'Видит ночью'
+            },
+            { 
+                emoji: '🐧', 
+                english: 'penguin', 
+                russian: 'пингвин', 
+                sound: '💧 Плюх!',
+                color: '⚫🤍 Чёрно-белый',
+                food: '🐟 Рыбка',
+                fact: 'Не летает, но плавает'
+            },
+            { 
+                emoji: '🦆', 
+                english: 'duck', 
+                russian: 'утка', 
+                sound: '🔊 Кря-кря!',
+                color: '🟤 Коричневая',
+                food: '🌾 Зёрнышки',
+                fact: 'Любит плавать'
+            },
+            { 
+                emoji: '🦅', 
+                english: 'eagle', 
+                russian: 'орёл', 
+                sound: '🔊 Кланг!',
+                color: '⚫ Тёмный',
+                food: '🐇 Зайцы',
+                fact: 'Очень зоркий'
+            },
+            { 
+                emoji: '🦩', 
+                english: 'flamingo', 
+                russian: 'фламинго', 
+                sound: '💗 Курлык',
+                color: '💗 Розовый',
+                food: '🦐 Креветки',
+                fact: 'Стоит на одной ноге'
+            }
+        ];
+
+        // Загружаем изученных птиц
+        let studiedBirds = JSON.parse(localStorage.getItem('studiedBirds')) || [];
+
+        // Отрисовка карточек
+        function renderBirds() {
+            const grid = document.getElementById('birdsGrid');
+            grid.innerHTML = '';
+            
+            birds.forEach((bird, index) => {
+                const isLearned = studiedBirds.includes(bird.english);
+                const card = document.createElement('div');
+                card.className = `bird-card ${isLearned ? 'learned' : ''}`;
+                card.setAttribute('data-bird', bird.english);
+                
+                card.innerHTML = `
+                    <div class="bird-emoji">${bird.emoji}</div>
+                    <div class="bird-name">${bird.russian}</div>
+                    <div class="bird-english">${bird.english}</div>
+                    <div class="bird-details">
+                        <div class="bird-sound">🔊 ${bird.sound}</div>
+                        <div class="bird-color">🎨 ${bird.color}</div>
+                        <div class="bird-food">🍽️ ${bird.food}</div>
+                        <div class="bird-fact">✨ ${bird.fact}</div>
+                    </div>
+                    <button class="learn-btn" onclick="learnBird('${bird.english}')">
+                        ${isLearned ? '✅ Изучено' : '📸 Сфоткать'}
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            updateBirdsCount();
+        }
+
+        // Функция изучения птицы
+        window.learnBird = function(birdName) {
+            if (!studiedBirds.includes(birdName)) {
+                studiedBirds.push(birdName);
+                localStorage.setItem('studiedBirds', JSON.stringify(studiedBirds));
+                
+                // Добавляем фото в альбом
+                let photos = JSON.parse(localStorage.getItem('photos')) || [];
+                photos.push(`bird_${birdName}_${Date.now()}`);
+                localStorage.setItem('photos', JSON.stringify(photos));
+                
+                // Добавляем звёзды
+                let stars = parseInt(localStorage.getItem('stars')) || 0;
+                stars += 1;
+                localStorage.setItem('stars', stars);
+                
+                renderBirds();
+            }
+        };
+
+        // Обновление счётчика
+        function updateBirdsCount() {
+            document.getElementById('birdsCount').textContent = studiedBirds.length;
+        }
+
+        // Инициализация
+        renderBirds();
+
+        // Автообновление статистики
+        setInterval(updateBirdsCount, 1000);
+    </script>
+</body>
+</html>

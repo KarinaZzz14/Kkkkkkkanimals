@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦁 Африканское сафари · Зоопарк</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="enclosure-page safari-page">
+    <!-- Фон саванны -->
+    <div class="savanna-bg">
+        <div class="hot-sun">☀️☀️☀️</div>
+        <div class="savanna-grass">
+            <div class="grass-blade"></div>
+            <div class="grass-blade"></div>
+            <div class="grass-blade"></div>
+            <div class="grass-blade"></div>
+        </div>
+        <div class="acacia-trees">
+            <span class="acacia">🌳</span>
+            <span class="acacia">🌴</span>
+            <span class="acacia">🌳</span>
+        </div>
+        <div class="heat-wave"></div>
+    </div>
+
+    <!-- Шапка сафари -->
+    <div class="enclosure-header">
+        <a href="index.html" class="map-return">
+            <span class="return-icon">🗺️</span>
+            В лагерь
+        </a>
+        <h1 class="enclosure-title">
+            <span class="title-deco">🦁</span>
+            Африканское сафари
+            <span class="title-deco">🦓</span>
+        </h1>
+        <div class="safari-jeep">
+            <span class="jeep-icon">🚙</span>
+            <span class="jeep-text">Тур на джипе</span>
+        </div>
+    </div>
+
+    <!-- Зона сафари -->
+    <div class="safari-zone">
+        <!-- Джип с туристами -->
+        <div class="tour-jeep">
+            <div class="jeep">🚙</div>
+            <div class="tourists">👨‍👩‍👧‍👦</div>
+            <div class="camera-flash">📸</div>
+        </div>
+
+        <!-- Водопой -->
+        <div class="watering-hole">
+            <div class="water-pool">💧💧💧</div>
+            <div class="water-label">Водопой</div>
+        </div>
+
+        <!-- Животные сафари -->
+        <div class="safari-grid" id="safariGrid"></div>
+
+        <!-- Следы на песке -->
+        <div class="animal-tracks">
+            <span class="track">🐾</span>
+            <span class="track">🐾</span>
+            <span class="track">🐾</span>
+        </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="enclosure-stats">
+        <div class="stat-badge">
+            <span class="stat-emoji">🦁</span>
+            <span class="stat-label">Встречено животных:</span>
+            <span class="stat-value" id="safariCount">0</span>
+            <span class="stat-total">/5</span>
+        </div>
+    </div>
+
+    <script>
+        // База данных африканских животных
+        const safariAnimals = [
+            { 
+                emoji: '🦁', 
+                english: 'lion', 
+                russian: 'лев', 
+                sound: '🔊 Р-р-р!',
+                food: '🥩 Мясо',
+                speed: '⚡ Быстрый',
+                trait: 'Царь зверей'
+            },
+            { 
+                emoji: '🐘', 
+                english: 'elephant', 
+                russian: 'слон', 
+                sound: '🔊 Ту-ту!',
+                food: '🌿 Листья',
+                speed: '🐘 Не спешит',
+                trait: 'Большие уши'
+            },
+            { 
+                emoji: '🦒', 
+                english: 'giraffe', 
+                russian: 'жираф', 
+                sound: '🔊 ...',
+                food: '🌿 Листья',
+                speed: '🦒 Длинноногий',
+                trait: 'Длинная шея'
+            },
+            { 
+                emoji: '🦓', 
+                english: 'zebra', 
+                russian: 'зебра', 
+                sound: '🔊 И-го-го!',
+                food: '🌿 Травка',
+                speed: '⚡ Быстрая',
+                trait: 'Полосатая'
+            },
+            { 
+                emoji: '🦏', 
+                english: 'rhino', 
+                russian: 'носорог', 
+                sound: '🔊 Фыр-фыр',
+                food: '🌿 Травка',
+                speed: '🏃‍♂️ Бывает быстрым',
+                trait: 'Рог на носу'
+            }
+        ];
+
+        let studiedSafari = JSON.parse(localStorage.getItem('studiedSafari')) || [];
+
+        function renderSafari() {
+            const grid = document.getElementById('safariGrid');
+            grid.innerHTML = '';
+            
+            safariAnimals.forEach((animal, index) => {
+                const isLearned = studiedSafari.includes(animal.english);
+                const card = document.createElement('div');
+                card.className = `safari-card ${isLearned ? 'learned' : ''}`;
+                card.setAttribute('data-animal', animal.english);
+                
+                card.innerHTML = `
+                    <div class="safari-emoji">${animal.emoji}</div>
+                    <div class="safari-name">${animal.russian}</div>
+                    <div class="safari-english">${animal.english}</div>
+                    <div class="safari-details">
+                        <div class="safari-sound">🔊 ${animal.sound}</div>
+                        <div class="safari-food">🍽️ ${animal.food}</div>
+                        <div class="safari-speed">🏃 ${animal.speed}</div>
+                        <div class="safari-trait">✨ ${animal.trait}</div>
+                    </div>
+                    <button class="learn-btn" onclick="learnSafari('${animal.english}')">
+                        ${isLearned ? '✅ Встречено' : '👀 Увидеть'}
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            updateSafariCount();
+        }
+
+        window.learnSafari = function(animalName) {
+            if (!studiedSafari.includes(animalName)) {
+                studiedSafari.push(animalName);
+                localStorage.setItem('studiedSafari', JSON.stringify(studiedSafari));
+                
+                let photos = JSON.parse(localStorage.getItem('photos')) || [];
+                photos.push(`safari_${animalName}_${Date.now()}`);
+                localStorage.setItem('photos', JSON.stringify(photos));
+                
+                let stars = parseInt(localStorage.getItem('stars')) || 0;
+                stars += 1;
+                localStorage.setItem('stars', stars);
+                
+                renderSafari();
+            }
+        };
+
+        function updateSafariCount() {
+            document.getElementById('safariCount').textContent = studiedSafari.length;
+        }
+
+        renderSafari();
+    </script>
+</body>
+</html>

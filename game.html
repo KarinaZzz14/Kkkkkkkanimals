@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎪 Покорми животных · Игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="game-page">
+    <!-- Праздничный фон -->
+    <div class="game-bg">
+        <div class="balloons">
+            <span class="balloon">🎈</span>
+            <span class="balloon">🎈</span>
+            <span class="balloon">🎈</span>
+            <span class="balloon">🎈</span>
+        </div>
+        <div class="confetti"></div>
+    </div>
+
+    <!-- Шапка игры -->
+    <div class="enclosure-header">
+        <a href="index.html" class="map-return">
+            <span class="return-icon">🗺️</span>
+            На карту
+        </a>
+        <h1 class="enclosure-title">
+            <span class="title-deco">🎪</span>
+            Покорми животных!
+            <span class="title-deco">🍎</span>
+        </h1>
+        <div class="game-score" id="gameScoreDisplay">
+            <span class="score-icon">⭐</span>
+            <span class="score-value" id="gameScore">0</span>
+        </div>
+    </div>
+
+    <!-- Игровая зона -->
+    <div class="game-zone">
+        <div class="game-instructions">
+            <div class="instruction-bubble">
+                <span class="bubble-emoji">👆</span>
+                <span class="bubble-text">Перетащи еду к голодному животному!</span>
+            </div>
+        </div>
+
+        <!-- Голодные животные -->
+        <div class="hungry-animals" id="hungryAnimals"></div>
+
+        <!-- Еда -->
+        <div class="food-items" id="foodItems">
+            <div class="food-item" draggable="true" data-food="meat" data-animal="lion">🥩</div>
+            <div class="food-item" draggable="true" data-food="fish" data-animal="penguin">🐟</div>
+            <div class="food-item" draggable="true" data-food="honey" data-animal="bear">🍯</div>
+            <div class="food-item" draggable="true" data-food="carrot" data-animal="rabbit">🥕</div>
+            <div class="food-item" draggable="true" data-food="apple" data-animal="elephant">🍎</div>
+            <div class="food-item" draggable="true" data-food="grass" data-animal="zebra">🌿</div>
+            <div class="food-item" draggable="true" data-food="fish" data-animal="dolphin">🐟</div>
+            <div class="food-item" draggable="true" data-food="meat" data-animal="wolf">🥩</div>
+        </div>
+
+        <!-- Сообщение игры -->
+        <div class="game-message" id="gameMessage">
+            🍽️ Начинаем кормить!
+        </div>
+
+        <!-- Кнопки -->
+        <div class="game-buttons">
+            <button class="new-game-btn" onclick="resetGame()">
+                🔄 Новая игра
+            </button>
+            <button class="hint-btn" onclick="showHint()">
+                💡 Подсказка
+            </button>
+        </div>
+    </div>
+
+    <!-- Статистика игры -->
+    <div class="game-stats-panel">
+        <div class="stat-item">
+            <span class="stat-icon">🍖</span>
+            <span class="stat-label">Накормлено:</span>
+            <span class="stat-value" id="fedCount">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-icon">⭐</span>
+            <span class="stat-label">Звёзды:</span>
+            <span class="stat-value" id="starsCount">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-icon">🎯</span>
+            <span class="stat-label">Попыток:</span>
+            <span class="stat-value" id="attemptsCount">0</span>
+        </div>
+    </div>
+
+    <style>
+        /* Дополнительные стили для игры */
+        .game-stats-panel {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 50px;
+            margin: 20px;
+            border: 4px solid #FFD700;
+        }
+
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .hint-btn {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 8px 0 #2A5C9A;
+            transition: 0.1s;
+        }
+
+        .hint-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #2A5C9A;
+        }
+
+        .hint-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 0px 0 #2A5C9A;
+        }
+
+        .instruction-bubble {
+            background: #F0E68C;
+            padding: 20px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            border: 4px dashed #FF6B4A;
+            animation: pulse 2s infinite;
+        }
+
+        .bubble-emoji {
+            font-size: 3rem;
+        }
+
+        .bubble-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4A2E1E;
+        }
+    </style>
+
+    <script>
+        // База животных для игры
+        const gameAnimals = [
+            { emoji: '🦁', name: 'lion', food: '🥩', hungry: 'Голодный лев!' },
+            { emoji: '🐧', name: 'penguin', food: '🐟', hungry: 'Пингвин хочет рыбку!' },
+            { emoji: '🐻', name: 'bear', food: '🍯', hungry: 'Мишка ждёт медок!' },
+            { emoji: '🐰', name: 'rabbit', food: '🥕', hungry: 'Зайка просит морковку!' },
+            { emoji: '🐘', name: 'elephant', food: '🍎', hungry: 'Слоник хочет яблочко!' },
+            { emoji: '🦓', name: 'zebra', food: '🌿', hungry: 'Зебра жуёт травку!' },
+            { emoji: '🐬', name: 'dolphin', food: '🐟', hungry: 'Дельфин ныряет за рыбкой!' },
+            { emoji: '🐺', name: 'wolf', food: '🥩', hungry: 'Волк хочет мяска!' }
+        ];
+
+        let fedAnimals = [];
+        let attempts = 0;
+        let gameStars = 0;
+
+        // Загружаем звёзды
+        gameStars = parseInt(localStorage.getItem('stars')) || 0;
+        updateStars();
+
+        function renderGame() {
+            const container = document.getElementById('hungryAnimals');
+            container.innerHTML = '';
+            
+            // Перемешиваем животных
+            const shuffled = [...gameAnimals].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(animal => {
+                const isFed = fedAnimals.includes(animal.name);
+                const slot = document.createElement('div');
+                slot.className = `animal-slot ${isFed ? 'fed' : ''}`;
+                slot.setAttribute('data-animal', animal.name);
+                slot.setAttribute('data-food', animal.food);
+                slot.setAttribute('data-hungry', animal.hungry);
+                slot.innerHTML = animal.emoji;
+                
+                slot.addEventListener('dragover', (e) => e.preventDefault());
+                slot.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const food = e.dataTransfer.getData('text/plain');
+                    feedAnimal(slot, food);
+                });
+                
+                container.appendChild(slot);
+            });
+        }
+
+        function feedAnimal(slot, food) {
+            const animal = slot.dataset.animal;
+            const message = document.getElementById('gameMessage');
+            
+            attempts++;
+            document.getElementById('attemptsCount').textContent = attempts;
+            
+            if (fedAnimals.includes(animal)) {
+                message.innerHTML = '😋 Это животное уже сытое!';
+                message.style.background = '#FFB6C1';
+                return;
+            }
+            
+            if (food === slot.dataset.food) {
+                slot.classList.add('fed');
+                fedAnimals.push(animal);
+                gameStars++;
+                
+                // Сохраняем звёзды
+                localStorage.setItem('stars', gameStars);
+                updateStars();
+                
+                message.innerHTML = '🎉 Правильно! Животное довольно! +1 звезда';
+                message.style.background = '#90EE90';
+                
+                document.getElementById('fedCount').textContent = fedAnimals.length;
+                
+                // Проверка победы
+                if (fedAnimals.length === gameAnimals.length) {
+                    message.innerHTML = '🏆 Ты покормил всех животных! Молодец! +5 звёзд';
+                    gameStars += 5;
+                    localStorage.setItem('stars', gameStars);
+                    updateStars();
+                    
+                    // Праздничная анимация
+                    createConfetti();
+                }
+            } else {
+                message.innerHTML = '😕 Это животное не ест такую еду!';
+                message.style.background = '#FFB6C1';
+            }
+        }
+
+        function resetGame() {
+            fedAnimals = [];
+            attempts = 0;
+            document.getElementById('fedCount').textContent = '0';
+            document.getElementById('attemptsCount').textContent = '0';
+            document.getElementById('gameMessage').innerHTML = '🍽️ Новая игра! Корми животных!';
+            document.getElementById('gameMessage').style.background = '#F0E68C';
+            renderGame();
+        }
+
+        function showHint() {
+            const hungryLeft = gameAnimals.length - fedAnimals.length;
+            alert(`🐾 Осталось покормить ${hungryLeft} животных! Каждый любит свою еду.`);
+        }
+
+        function updateStars() {
+            document.getElementById('gameScore').textContent = gameStars;
+            document.getElementById('starsCount').textContent = gameStars;
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = '🎉';
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = '3rem';
+                    confetti.style.zIndex = '1000';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 200);
+            }
+        }
+
+        // Drag and drop
+        document.querySelectorAll('.food-item').forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.dataset.food);
+                e.target.style.opacity = '0.5';
+            });
+            item.addEventListener('dragend', (e) => {
+                e.target.style.opacity = '1';
+            });
+        });
+
+        // Анимация падения
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                0% { transform: translateY(0) rotate(0deg); }
+                100% { transform: translateY(100vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Старт игры
+        renderGame();
+    </script>
+</body>
+</html>

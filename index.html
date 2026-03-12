@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Зоопарк - карта приключений</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Анимированный фон -->
+    <div class="animated-bg">
+        <div class="sky-gradient"></div>
+        <div class="floating-clouds">
+            <div class="cloud" style="top: 10%; left: -10%; animation-duration: 40s;">☁️</div>
+            <div class="cloud" style="top: 30%; right: -5%; animation-duration: 35s;">☁️☁️</div>
+            <div class="cloud" style="bottom: 20%; left: 20%; animation-duration: 45s;">☁️☁️☁️</div>
+            <div class="cloud" style="top: 50%; left: 60%; animation-duration: 38s;">☁️</div>
+            <div class="cloud" style="bottom: 40%; right: 30%; animation-duration: 42s;">☁️☁️</div>
+        </div>
+        
+        <!-- Летающие птицы -->
+        <div class="flying-birds">
+            <div class="bird" style="top: 15%; left: 20%; animation-delay: 0s;">🕊️</div>
+            <div class="bird" style="top: 25%; left: 70%; animation-delay: 2s;">🕊️</div>
+            <div class="bird" style="top: 45%; left: 30%; animation-delay: 4s;">🕊️</div>
+            <div class="bird" style="top: 60%; left: 80%; animation-delay: 1s;">🕊️</div>
+        </div>
+
+        <!-- Солнце с лучами -->
+        <div class="sun-with-rays">
+            <div class="sun">☀️</div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+    </div>
+
+    <!-- Главный контейнер -->
+    <div class="park-container">
+        <!-- Вход в зоопарк -->
+        <div class="entrance-gate">
+            <h1 class="park-title">
+                <span class="title-animal">🐘</span>
+                Добро пожаловать в зоопарк!
+                <span class="title-animal">🦒</span>
+            </h1>
+            
+            <div class="welcome-message">
+                <div class="zookeeper">
+                    <span class="keeper-emoji">🧑‍🌾</span>
+                    <span class="keeper-text">Привет, друг! Сегодня нас ждут приключения!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карта зоопарка -->
+        <div class="park-map">
+            <!-- Дорожки с анимацией -->
+            <div class="animated-path path1">
+                <div class="footprints">👣👣👣👣</div>
+            </div>
+            <div class="animated-path path2">
+                <div class="footprints">👣👣👣👣</div>
+            </div>
+            <div class="animated-path path3">
+                <div class="footprints">👣👣👣👣</div>
+            </div>
+
+            <!-- Вольеры с анимацией -->
+            <a href="birds.html" class="enclosure birds-house">
+                <div class="enclosure-roof"></div>
+                <div class="enclosure-content">
+                    <div class="enclosure-emoji">🦜</div>
+                    <div class="enclosure-name">Птичий двор</div>
+                    <div class="animal-previews">
+                        <span>🦚</span>
+                        <span>🦉</span>
+                        <span>🐧</span>
+                    </div>
+                </div>
+                <div class="enclosure-hover">
+                    <span class="hover-text">Зайти в гости</span>
+                    <span class="hover-arrow">➡️</span>
+                </div>
+                <!-- Анимированные птички над вольером -->
+                <div class="flying-around">
+                    <span class="flyer">🦋</span>
+                    <span class="flyer">🐝</span>
+                </div>
+            </a>
+
+            <a href="mammals.html" class="enclosure mammals-house">
+                <div class="enclosure-roof"></div>
+                <div class="enclosure-content">
+                    <div class="enclosure-emoji">🐻</div>
+                    <div class="enclosure-name">Лесные жители</div>
+                    <div class="animal-previews">
+                        <span>🦊</span>
+                        <span>🐰</span>
+                        <span>🐺</span>
+                    </div>
+                </div>
+                <div class="enclosure-hover">
+                    <span class="hover-text">Погладить зверей</span>
+                    <span class="hover-arrow">➡️</span>
+                </div>
+            </a>
+
+            <a href="aquarium.html" class="enclosure aquarium-house">
+                <div class="enclosure-roof water-effect"></div>
+                <div class="enclosure-content">
+                    <div class="enclosure-emoji">🐠</div>
+                    <div class="enclosure-name">Подводный мир</div>
+                    <div class="animal-previews">
+                        <span>🐙</span>
+                        <span>🐬</span>
+                        <span>🦈</span>
+                    </div>
+                </div>
+                <div class="enclosure-hover">
+                    <span class="hover-text">Нырнуть в глубину</span>
+                    <span class="hover-arrow">➡️</span>
+                </div>
+                <!-- Пузырьки -->
+                <div class="bubbles-animation">
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                </div>
+            </a>
+
+            <a href="safari.html" class="enclosure safari-house">
+                <div class="enclosure-roof"></div>
+                <div class="enclosure-content">
+                    <div class="enclosure-emoji">🦁</div>
+                    <div class="enclosure-name">Африканское сафари</div>
+                    <div class="animal-previews">
+                        <span>🐘</span>
+                        <span>🦓</span>
+                        <span>🦒</span>
+                    </div>
+                </div>
+                <div class="enclosure-hover">
+                    <span class="hover-text">Отправиться в сафари</span>
+                    <span class="hover-arrow">➡️</span>
+                </div>
+            </a>
+
+            <a href="game.html" class="enclosure game-house">
+                <div class="enclosure-roof"></div>
+                <div class="enclosure-content">
+                    <div class="enclosure-emoji">🎪</div>
+                    <div class="enclosure-name">Игровая площадка</div>
+                    <div class="animal-previews">
+                        <span>🎮</span>
+                        <span>🧸</span>
+                        <span>🎈</span>
+                    </div>
+                </div>
+                <div class="enclosure-hover">
+                    <span class="hover-text">Поиграть!</span>
+                    <span class="hover-arrow">➡️</span>
+                </div>
+            </a>
+
+            <!-- Декоративные элементы -->
+            <div class="park-tree tree1">🌳</div>
+            <div class="park-tree tree2">🌴</div>
+            <div class="park-tree tree3">🌲</div>
+            <div class="park-tree tree4">🌳</div>
+            
+            <div class="park-bench bench1">🪑</div>
+            <div class="park-bench bench2">🪑</div>
+            
+            <div class="water-fountain">
+                <span class="fountain-water">💧</span>
+                <span class="fountain-water">💧</span>
+                <span class="fountain-water">💧</span>
+            </div>
+
+            <div class="information-board">
+                <span class="info-icon">ℹ️</span>
+                <span class="info-text">Карта зоопарка</span>
+            </div>
+        </div>
+
+        <!-- Статистика путешественника -->
+        <div class="traveler-stats">
+            <div class="stats-card">
+                <div class="stats-header">
+                    <span class="stats-emoji">🎒</span>
+                    <span class="stats-title">Мой дневник путешественника</span>
+                </div>
+                <div class="stats-content">
+                    <div class="stat-item">
+                        <span class="stat-icon">📍</span>
+                        <span class="stat-label">Посещено мест:</span>
+                        <span class="stat-value" id="visitedCount">0</span>
+                        <span class="stat-total">/5</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">📸</span>
+                        <span class="stat-label">Сделано фото:</span>
+                        <span class="stat-value" id="photosCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🌟</span>
+                        <span class="stat-label">Накоплено звёзд:</span>
+                        <span class="stat-value" id="starsCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Бегущая строка с животными -->
+        <div class="animals-ticker">
+            <div class="ticker-content">
+                <span>🐶 dog · собака</span>
+                <span>🐱 cat · кошка</span>
+                <span>🦊 fox · лиса</span>
+                <span>🐻 bear · медведь</span>
+                <span>🐼 panda · панда</span>
+                <span>🦁 lion · лев</span>
+                <span>🐧 penguin · пингвин</span>
+                <span>🐘 elephant · слон</span>
+                <span>🦒 giraffe · жираф</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Обновление статистики
+        function updateStats() {
+            let visited = JSON.parse(localStorage.getItem('visitedEnclosures')) || [];
+            let photos = JSON.parse(localStorage.getItem('photos')) || [];
+            let stars = localStorage.getItem('stars') || 0;
+            
+            document.getElementById('visitedCount').textContent = visited.length;
+            document.getElementById('photosCount').textContent = photos.length;
+            document.getElementById('starsCount').textContent = stars;
+        }
+        
+        updateStats();
+        
+        // Добавляем звёзды при посещении
+        setInterval(updateStats, 1000);
+    </script>
+</body>
+</html>

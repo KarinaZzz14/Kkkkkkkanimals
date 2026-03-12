@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐠 Подводный мир · Зоопарк</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="enclosure-page aquarium-page">
+    <!-- Подводный фон с пузырьками -->
+    <div class="underwater-bg">
+        <div class="water-surface"></div>
+        <div class="bubbles-animation">
+            <div class="bubble" style="left: 10%; animation-duration: 3s;"></div>
+            <div class="bubble" style="left: 30%; animation-duration: 4s;"></div>
+            <div class="bubble" style="left: 50%; animation-duration: 5s;"></div>
+            <div class="bubble" style="left: 70%; animation-duration: 3.5s;"></div>
+            <div class="bubble" style="left: 90%; animation-duration: 4.5s;"></div>
+        </div>
+        <div class="sun-rays-underwater">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+    </div>
+
+    <!-- Шапка аквариума -->
+    <div class="enclosure-header">
+        <a href="index.html" class="map-return">
+            <span class="return-icon">🗺️</span>
+            Всплыть наверх
+        </a>
+        <h1 class="enclosure-title">
+            <span class="title-deco">🐠</span>
+            Подводный мир
+            <span class="title-deco">🐙</span>
+        </h1>
+        <div class="depth-meter">
+            <span class="depth-icon">🌊</span>
+            Глубина 15 метров
+        </div>
+    </div>
+
+    <!-- Аквариум -->
+    <div class="aquarium-tank">
+        <!-- Водоросли -->
+        <div class="seaweed-group">
+            <div class="seaweed seaweed1"></div>
+            <div class="seaweed seaweed2"></div>
+            <div class="seaweed seaweed3"></div>
+            <div class="seaweed seaweed4"></div>
+        </div>
+
+        <!-- Кораллы -->
+        <div class="coral-reef">
+            <span class="coral">🪸</span>
+            <span class="coral">🪸</span>
+            <span class="coral">🪸</span>
+        </div>
+
+        <!-- Рыбки -->
+        <div class="fish-grid" id="fishGrid"></div>
+
+        <!-- Камушки на дне -->
+        <div class="seabed">
+            <span class="rock">🪨</span>
+            <span class="rock">🪨</span>
+            <span class="rock">🪨</span>
+            <span class="shell">🐚</span>
+            <span class="starfish">⭐</span>
+        </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="enclosure-stats">
+        <div class="stat-badge">
+            <span class="stat-emoji">📸</span>
+            <span class="stat-label">Сфотографировано рыбок:</span>
+            <span class="stat-value" id="fishCount">0</span>
+            <span class="stat-total">/5</span>
+        </div>
+    </div>
+
+    <script>
+        // База данных морских обитателей
+        const fish = [
+            { 
+                emoji: '🐠', 
+                english: 'fish', 
+                russian: 'рыбка', 
+                color: '🌈 Яркая',
+                size: '🐟 Маленькая',
+                food: '🌿 Водоросли',
+                feature: 'Быстро плавает'
+            },
+            { 
+                emoji: '🐙', 
+                english: 'octopus', 
+                russian: 'осьминог', 
+                color: '🟣 Фиолетовый',
+                size: '🦑 Средний',
+                food: '🦀 Крабы',
+                feature: '8 щупалец'
+            },
+            { 
+                emoji: '🐬', 
+                english: 'dolphin', 
+                russian: 'дельфин', 
+                color: '⚪🤍 Серый',
+                size: '🐬 Большой',
+                food: '🐟 Рыбки',
+                feature: 'Умный и добрый'
+            },
+            { 
+                emoji: '🦈', 
+                english: 'shark', 
+                russian: 'акула', 
+                color: '⚫ Тёмная',
+                size: '🦈 Огромная',
+                food: '🥩 Мясо',
+                feature: 'Острые зубы'
+            },
+            { 
+                emoji: '🐢', 
+                english: 'turtle', 
+                russian: 'черепаха', 
+                color: '🟢 Зелёная',
+                size: '🛡️ Средняя',
+                food: '🌿 Трава',
+                feature: 'Твёрдый панцирь'
+            }
+        ];
+
+        let studiedFish = JSON.parse(localStorage.getItem('studiedFish')) || [];
+
+        function renderFish() {
+            const grid = document.getElementById('fishGrid');
+            grid.innerHTML = '';
+            
+            fish.forEach((fishItem, index) => {
+                const isLearned = studiedFish.includes(fishItem.english);
+                const card = document.createElement('div');
+                card.className = `fish-card ${isLearned ? 'learned' : ''}`;
+                card.setAttribute('data-fish', fishItem.english);
+                
+                card.innerHTML = `
+                    <div class="fish-emoji">${fishItem.emoji}</div>
+                    <div class="fish-name">${fishItem.russian}</div>
+                    <div class="fish-english">${fishItem.english}</div>
+                    <div class="fish-details">
+                        <div class="fish-color">🎨 ${fishItem.color}</div>
+                        <div class="fish-size">📏 ${fishItem.size}</div>
+                        <div class="fish-food">🍽️ ${fishItem.food}</div>
+                        <div class="fish-feature">✨ ${fishItem.feature}</div>
+                    </div>
+                    <button class="learn-btn" onclick="learnFish('${fishItem.english}')">
+                        ${isLearned ? '✅ Сфоткано' : '📸 Сделать фото'}
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            updateFishCount();
+        }
+
+        window.learnFish = function(fishName) {
+            if (!studiedFish.includes(fishName)) {
+                studiedFish.push(fishName);
+                localStorage.setItem('studiedFish', JSON.stringify(studiedFish));
+                
+                let photos = JSON.parse(localStorage.getItem('photos')) || [];
+                photos.push(`fish_${fishName}_${Date.now()}`);
+                localStorage.setItem('photos', JSON.stringify(photos));
+                
+                let stars = parseInt(localStorage.getItem('stars')) || 0;
+                stars += 1;
+                localStorage.setItem('stars', stars);
+                
+                renderFish();
+            }
+        };
+
+        function updateFishCount() {
+            document.getElementById('fishCount').textContent = studiedFish.length;
+        }
+
+        renderFish();
+    </script>
+</body>
+</html>
