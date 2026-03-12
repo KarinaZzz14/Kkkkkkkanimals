@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Учим животных · английский</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Главный контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Заголовок */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            text-shadow: 4px 4px 0 #4834d4;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+        }
+
+        /* Сетка с карточками */
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Карточка животного */
+        .animal-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: #ffd700;
+        }
+
+        .animal-card.active {
+            border-color: #4CAF50;
+            background: #f0fff0;
+            transform: scale(1.02);
+        }
+
+        /* Эмодзи животного */
+        .animal-emoji {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 15px;
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.2));
+        }
+
+        /* Названия */
+        .animal-english {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+        }
+
+        .animal-russian {
+            font-size: 2rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Дополнительная информация */
+        .animal-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border-top: 3px solid #4CAF50;
+            display: none;
+        }
+
+        .animal-card.active .animal-details {
+            display: block;
+        }
+
+        .detail-item {
+            font-size: 1.2rem;
+            margin: 8px 0;
+            color: #34495e;
+        }
+
+        .detail-item strong {
+            color: #e74c3c;
+            margin-right: 10px;
+        }
+
+        /* Кнопка для дополнительной информации */
+        .info-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            border: 2px solid transparent;
+        }
+
+        .info-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+            border-color: #f1c40f;
+        }
+
+        .info-btn.active {
+            background: #e74c3c;
+        }
+
+        /* Панель статистики */
+        .stats-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3498db;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+
+        /* Кнопка сброса */
+        .reset-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto 0;
+            display: block;
+            border: 3px solid transparent;
+        }
+
+        .reset-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+            border-color: #f1c40f;
+        }
+
+        /* Подсказка */
+        .hint {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        /* Анимации */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animal-card:hover .animal-emoji {
+            animation: bounce 0.5s ease infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="header">
+            <h1>🐾 ANIMALS WORLD 🐾</h1>
+            <p>Нажми на карточку, чтобы узнать больше о животном!</p>
+        </div>
+
+        <!-- Сетка с животными -->
+        <div class="animals-grid" id="animalsGrid"></div>
+
+        <!-- Панель статистики -->
+        <div class="stats-panel" id="statsPanel">
+            <div class="stats-title">📊 Статистика изучения</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalAnimals">0</div>
+                    <div class="stat-label">Всего животных</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="activeCard">0</div>
+                    <div class="stat-label">Активная карточка</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="studiedCount">0</div>
+                    <div class="stat-label">Изучено</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка сброса -->
+        <button class="reset-btn" id="resetBtn">🔄 Сбросить все карточки</button>
+
+        <!-- Подсказка -->
+        <div class="hint">
+            💡 Кликни на карточку — откроется дополнительная информация!
+        </div>
+    </div>
+
+    <script>
+        // Полная база данных животных с подробной информацией
+        const animalsData = [
+            {
+                emoji: '🐶',
+                english: 'dog',
+                russian: 'собака',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'гав-гав',
+                    home: 'будка',
+                    food: 'мясо, корм',
+                    feature: 'лучший друг человека'
+                }
+            },
+            {
+                emoji: '🐱',
+                english: 'cat',
+                russian: 'кошка',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'мяу-мяу',
+                    home: 'дом',
+                    food: 'рыба, молоко',
+                    feature: 'видит в темноте'
+                }
+            },
+            {
+                emoji: '🐭',
+                english: 'mouse',
+                russian: 'мышь',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'пи-пи',
+                    home: 'норка',
+                    food: 'сыр, зерно',
+                    feature: 'боится кошек'
+                }
+            },
+            {
+                emoji: '🐹',
+                english: 'hamster',
+                russian: 'хомяк',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'хрум-хрум',
+                    home: 'клетка',
+                    food: 'семечки, зерно',
+                    feature: 'носит еду за щеками'
+                }
+            },
+            {
+                emoji: '🐰',
+                english: 'rabbit',
+                russian: 'кролик',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: '...',
+                    home: 'норка',
+                    food: 'морковка, капуста',
+                    feature: 'длинные уши'
+                }
+            },
+            {
+                emoji: '🦊',
+                english: 'fox',
+                russian: 'лиса',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'тяф-тяф',
+                    home: 'нора',
+                    food: 'куры, мыши',
+                    feature: 'рыжий хвост'
+                }
+            },
+            {
+                emoji: '🐻',
+                english: 'bear',
+                russian: 'медведь',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'ррр',
+                    home: 'берлога',
+                    food: 'мёд, ягоды',
+                    feature: 'спит зимой'
+                }
+            },
+            {
+                emoji: '🐼',
+                english: 'panda',
+                russian: 'панда',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: '...',
+                    home: 'бамбуковый лес',
+                    food: 'бамбук',
+                    feature: 'чёрно-белый'
+                }
+            },
+            {
+                emoji: '🐨',
+                english: 'koala',
+                russian: 'коала',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'хр-хр',
+                    home: 'эвкалиптовый лес',
+                    food: 'эвкалипт',
+                    feature: 'носит детёныша в сумке'
+                }
+            },
+            {
+                emoji: '🦁',
+                english: 'lion',
+                russian: 'лев',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'рррр',
+                    home: 'саванна',
+                    food: 'мясо',
+                    feature: 'царь зверей'
+                }
+            },
+            {
+                emoji: '🐮',
+                english: 'cow',
+                russian: 'корова',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'му-у',
+                    home: 'ферма',
+                    food: 'трава',
+                    feature: 'даёт молоко'
+                }
+            },
+            {
+                emoji: '🐷',
+                english: 'pig',
+                russian: 'свинья',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'хрю-хрю',
+                    home: 'свинарник',
+                    food: 'всё подряд',
+                    feature: 'пятачок'
+                }
+            },
+            {
+                emoji: '🐸',
+                english: 'frog',
+                russian: 'лягушка',
+                facts: {
+                    type: 'земноводное',
+                    sound: 'ква-ква',
+                    home: 'пруд',
+                    food: 'мухи',
+                    feature: 'прыгает'
+                }
+            },
+            {
+                emoji: '🐙',
+                english: 'octopus',
+                russian: 'осьминог',
+                facts: {
+                    type: 'моллюск',
+                    sound: '...',
+                    home: 'море',
+                    food: 'рыба, крабы',
+                    feature: '8 щупалец'
+                }
+            },
+            {
+                emoji: '🦉',
+                english: 'owl',
+                russian: 'сова',
+                facts: {
+                    type: 'птица',
+                    sound: 'ух-ух',
+                    home: 'дупло',
+                    food: 'мыши',
+                    feature: 'летает ночью'
+                }
+            },
+            {
+                emoji: '🐧',
+                english: 'penguin',
+                russian: 'пингвин',
+                facts: {
+                    type: 'птица',
+                    sound: '...',
+                    home: 'Антарктида',
+                    food: 'рыба',
+                    feature: 'не летает, но плавает'
+                }
+            },
+            {
+                emoji: '🦆',
+                english: 'duck',
+                russian: 'утка',
+                facts: {
+                    type: 'птица',
+                    sound: 'кря-кря',
+                    home: 'пруд',
+                    food: 'ряска, хлеб',
+                    feature: 'перепончатые лапы'
+                }
+            },
+            {
+                emoji: '🦅',
+                english: 'eagle',
+                russian: 'орёл',
+                facts: {
+                    type: 'птица',
+                    sound: 'кланг',
+                    home: 'горы',
+                    food: 'мыши, змеи',
+                    feature: 'острый клюв'
+                }
+            },
+            {
+                emoji: '🐘',
+                english: 'elephant',
+                russian: 'слон',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: 'тууу',
+                    home: 'саванна',
+                    food: 'трава, листья',
+                    feature: 'длинный хобот'
+                }
+            },
+            {
+                emoji: '🦒',
+                english: 'giraffe',
+                russian: 'жираф',
+                facts: {
+                    type: 'млекопитающее',
+                    sound: '...',
+                    home: 'саванна',
+                    food: 'листья',
+                    feature: 'длинная шея'
+                }
+            }
+        ];
+
+        // Состояние приложения
+        let activeCardIndex = -1; // -1 значит ни одна карточка не активна
+        let studiedAnimals = new Array(animalsData.length).fill(false);
+
+        // DOM элементы
+        const animalsGrid = document.getElementById('animalsGrid');
+        const totalAnimalsEl = document.getElementById('totalAnimals');
+        const activeCardEl = document.getElementById('activeCard');
+        const studiedCountEl = document.getElementById('studiedCount');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Функция обновления статистики
+        function updateStats() {
+            totalAnimalsEl.textContent = animalsData.length;
+            activeCardEl.textContent = activeCardIndex === -1 ? 0 : activeCardIndex + 1;
+            
+            const studied = studiedAnimals.filter(v => v).length;
+            studiedCountEl.textContent = studied;
+        }
+
+        // Функция создания карточки
+        function createAnimalCard(animal, index) {
+            const card = document.createElement('div');
+            card.className = `animal-card ${activeCardIndex === index ? 'active' : ''}`;
+            
+            card.innerHTML = `
+                <div class="animal-emoji">${animal.emoji}</div>
+                <div class="animal-english">${animal.english}</div>
+                <div class="animal-russian">${animal.russian}</div>
+                <button class="info-btn ${studiedAnimals[index] ? 'active' : ''}" onclick="event.stopPropagation()">
+                    ${studiedAnimals[index] ? '✅ Изучено' : '📚 Подробнее'}
+                </button>
+                <div class="animal-details">
+                    <div class="detail-item"><strong>🐾 Тип:</strong> ${animal.facts.type}</div>
+                    <div class="detail-item"><strong>🔊 Звук:</strong> ${animal.facts.sound}</div>
+                    <div class="detail-item"><strong>🏠 Жильё:</strong> ${animal.facts.home}</div>
+                    <div class="detail-item"><strong>🍎 Еда:</strong> ${animal.facts.food}</div>
+                    <div class="detail-item"><strong>⭐ Особенность:</strong> ${animal.facts.feature}</div>
+                </div>
+            `;
+
+            // Клик по карточке
+            card.addEventListener('click', (e) => {
+                // Если кликнули на кнопку, не закрываем карточку
+                if (e.target.classList.contains('info-btn')) {
+                    return;
+                }
+                
+                // Снимаем активность со всех карточек
+                document.querySelectorAll('.animal-card').forEach(c => c.classList.remove('active'));
+                
+                // Активируем текущую карточку
+                card.classList.add('active');
+                activeCardIndex = index;
+                
+                // Отмечаем как изученное
+                studiedAnimals[index] = true;
+                
+                // Обновляем статистику
+                updateStats();
+            });
+
+            // Клик по кнопке "Подробнее"
+            const infoBtn = card.querySelector('.info-btn');
+            infoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Переключаем детали
+                const details = card.querySelector('.animal-details');
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                
+                // Меняем текст кнопки
+                if (details.style.display === 'block') {
+                    infoBtn.textContent = '🔽 Скрыть';
+                    infoBtn.classList.add('active');
+                } else {
+                    infoBtn.textContent = studiedAnimals[index] ? '✅ Изучено' : '📚 Подробнее';
+                }
+            });
+
+            return card;
+        }
+
+        // Функция отрисовки всех карточек
+        function renderAllCards() {
+            animalsGrid.innerHTML = '';
+            animalsData.forEach((animal, index) => {
+                const card = createAnimalCard(animal, index);
+                animalsGrid.appendChild(card);
+            });
+            updateStats();
+        }
+
+        // Сброс всего
+        function resetAll() {
+            // Сбрасываем состояние
+            activeCardIndex = -1;
+            studiedAnimals.fill(false);
+            
+            // Перерисовываем
+            renderAllCards();
+        }
+
+        // Инициализация
+        renderAllCards();
+
+        // Слушатель на кнопку сброса
+        resetBtn.addEventListener('click', resetAll);
+
+        // Добавляем небольшую задержку для анимации
+        setInterval(() => {
+            const cards = document.querySelectorAll('.animal-card');
+            cards.forEach((card, index) => {
+                if (index === activeCardIndex) {
+                    card.style.transform = 'scale(1.02)';
+                }
+            });
+        }, 100);
+    </script>
+</body>
+</html>
